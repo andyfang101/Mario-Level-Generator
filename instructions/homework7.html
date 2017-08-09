@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Homework 7</title>
+	</head>
+	
+	<body>
+		<h1>Mario Reinforcement Learning</h1>
+		<p>Reinforcement learning is an unsupervised, online learning process in which an agent attempts to maximize its reward within an environment. The agent accomplishes this through a combination of exploration and exploiting its current knowledge. In the end the agent should end up with a policy that tells it the optimal action to take for any state.</p>
+		<p>
+			In this project, we look at implementing a reinforcement learning algorithm to be able to play a Super Mario platformer. This project will be using a modified version of the  <a href="http://www.marioai.org/gameplay-track">2011 IEEE Super Mario Bros. Competition infrastructure (GamePlay track)</a>. The description of the competition and some documentation can be found there. This is a very similar engine to the one used in <a href="http://guzdial.com/summer17-gameai/homeworks/homework6.html">homework 6</a>, please refer back to that page for more information.</p>
+		<img src="marioplay.png" />
+		<p>You will implement a value iteration reinforcement learner agent through implementing its training function, reward function, and state representation.</p>
+		<hr />
+		<h2>What you need to know</h2>
+		<p>The Mario Bros. engine is written in Java. You will find the source code in the src/ directory.</p>
+		<p>You will modify only ValueIterationAgent.java to implement a value iteration reinforcement learner in order to learn to play through a variety of small, pre-authored levels. </p>
+		
+		<p><strong>dk.itu.mario.engine.TestAgent:</strong></p>
+		<p>This class is simply a means of running different agents (the provided A* agent or the ValueIterationAgent on one of the provided levels.</p>
+		<ul>
+			<li>TrainAndRun(DNA): "trains" the agent (either allowing the agent to run A* on a specified level or the value iteration algorithm). Feel free to alter this during testing and debugging..</li>
+		</ul>
+		<p><strong>dk.itu.mario.engine.Agent:</strong></p>
+		<p>The parent agent class. Do not modify this class. It might be helpful to understand its structure.</p>
+		<ul>
+			<li>GetAction(LevelScene currentWorld): Return the action to take given the current state (currentWorld)</li>
+			<li>Train(LevelScene currentWorld): Train this agent to play through the given level (currentWorld)</li>
+			<li>BooleanToCharActions(): Convert from boolean to char representation for actions.</li>
+			<li>CharToBooleanActions(): Convert from char to boolean representation for actions.</li>
+			<li>GetRandomBooleanAction(): Return a random action in the boolean representation.</li>
+			<li>GetActionDescription(): Get an english language description of actions (used for debugging)</li>
+			<li>AllPossibleActions(): Get an array of all possible actions in the boolean representation</li>
+			<li>resetAgent(): Reset all agent attributes to default, if that is required for rerunning this agent (needed for A*).</li>
+			
+		</ul>
+		<p><strong>dk.itu.mario.engine.ValueIterationAgent:</strong></p>
+		<p>This object represents the actual value iteration agent, and is the class that students will actually need to implement. Students are welcome to modify any part of this class as long as the modification does not violate the structure from the parent Agent class.</p>
+		<p>Member variables:</p>
+		<ul>
+			<li>MAX_LEVEL_TIME: the max time a level can take, despite what is said above do not alter this value.</li>
+			<li>MAX_ITERATIONS: the max number of iterations allowed for the value iteration algorithm</li>
+			<li>EPSILON: The probability of taking a policy action over a random action.</li>
+		</ul>
+		<p>Member functions:</p>
+
+		<ul>
+			<li>GetAction(LevelScene currentWorld): Get the action according to the policy or random action. Used during testing</li>
+			<li>GetPolicyAction(LevelScene currentWorld): Get the action according to the policy or most rewarding action. Used during training.</li>
+			<li>GetValueOfState(String currState): Get the value of this state representation or some default (feel free to alter default).</li>
+			<li>GetValueIterationAction(LevelScene currentWorld): Take a random or policy action. Used during testing.</li>
+			<li>RewardFunction(LevelScene trainingWorld): Captures the events that happened in the present state. <strong>You will complete this function.</strong></li>
+			<li>DoneTraining(): The point at which the training should stop. You can alter this function, but stopping as soon as mario first wins should be sufficient.</li>
+			<li>Train(LevelScene trainingWorld): Actually runs the value iteration algorithm. <strong>You must complete the update line for this function.</strong></li>
+			<li>GetStateRepresentation(LevelScene trainingWorld): Get string representation of current state on which to index the value table. <strong>You must alter this function.</strong></li>
+		</ul>
+		<p>See instructions for further information on the functions in ValueIterationAgent that need to be completed.</p>
+		<hr />
+		<h2>Instructions</h2>
+		<p>You must implement a value iteration agent that can play through Super Mario levels. </p>
+		<p><strong>Step 1: </strong>Acquire and install Apache Ant (<a href="http://ant.apache.org/">http://ant.apache.org/</a>).</p>
+		<p><strong>Step 2: </strong>In the homework7 directory, build the game engine:</p>
+		<ul>
+			<strong>&gt; ant</strong>
+		</ul>
+		<p><strong>Step 3: </strong>Modify homework6/src/dk/itu/mario/engine/ValueIterationAgent.java</p>
+		<p>ValueIterationAgent:</p>
+		<ul>
+			<li>RewardFunction(LevelScene trainingWorld): Captures the events that happened in the present state. You will need to alter all the default values in this function to accomplish "reward shaping" in order for your agent to succeed.</li>
+			<li>Train(LevelScene trainingWorld): Actually runs the value iteration algorithm. You will need to implement the update of state values, based on the value iteration pseudocode given in class.</li>
+			<li>GetStateRepresentation(LevelScene trainingWorld): Get string representation of current state on which to index the value table. You will need to alter the default string representation if you want your agent to succeed.</li>
+		</ul>
+		<p>You can create new member variables and functions as necessary.</p>
+		<p><strong>Step 4: </strong>Run your reinforcement learner from the homework7 directory: </p>
+		<p>To run the codebase, you must first compile any changes you've made with the command &quot;ant&quot; in the parent directory. Also make sure to change the aStar variable in TestAgent to false, as it is set to true initially as an example. Then, if the code compiled correctly, you can run the game by calling: </p>
+		<ul>
+			<p><strong>&gt; java -cp bin dk.itu.mario.engine.TestAgent &lt;Level Name&gt;</strong></p>
+		</ul>
+		<p>With the eight levels you have access to: <br />
+		</p>
+		<ul>
+			<p><strong> &gt; java -cp bin dk.itu.mario.engine.TestAgent 102<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1788<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1789<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1333<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1676<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1686<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1093<br />
+				&gt; java -cp bin dk.itu.mario.engine.TestAgent 1123<br /> </strong> </p>
+		</ul>
+		<p>When you run the application, there will be no Java GUI window as in the prior assignment. Rather you will need to print out the state if you want to track your agent during testing. This is the default for the A* agent and there are commented print lines to do the same in ValueIterationAgent.java, but they will slow down the learning significantly.</p>
+		<hr />
+		<h2>Grading</h2>
+		<ul>
+			<li>8 points: your code is capable of beating each of the eight levels given to you after being trained on those levels.<br />
+			</li>
+			<li>2 points: your code is capable of beating two test levels you do not have access to after being trained on those levels (roughly as difficult as 1123). <br />
+			</li>
+			<li>3 extra-credit points: after being trained on all ten levels your agent will be tested on three novel, held out levels. If your agent can make it to the goal given three attempts it will get one extra credit point per level, for a maximum of 3 extra credit points. </li>
+		</ul>
+		<hr />
+		<h2>Hints</h2>
+		<p>Make sure your state representation is as general as possible while still allowing your agent to have all necessary decision making information (Markovian).</p>
+		<p>You actually have access to more levels than the eight provided for you, you can see their names in LabeledLevel.java. It might be worth testing your algorithm on these levels as well. But you only need to succeed at the eight listed above and two not included in this set.</p>
+		<p>You can use the A* agent for inspiration for reward shaping.</p>
+		<p>It is possible to set up your agent to test out your policy after training, which can be helpful for the extra credit, but it is not required.</p>
+		<hr />
+		<h2>Submission</h2>
+		<p>To submit your solution, upload your modified ValueIterationAgent.java. </p>
+		<p>DO NOT upload the entire game engine.</p>
+	</body>
+	
+</html>
